@@ -21,7 +21,7 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // Elasticsearch Configuration
-            var elasticUri = configuration["Elastic:Uri"];
+            var elasticUri = Environment.GetEnvironmentVariable("ELASTIC_URI");
             var defaultIndex = configuration["Elastic:DefaultIndex"] ?? "products";
 
             services.AddDbContext<MasterContext>(x => x.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_URI")));

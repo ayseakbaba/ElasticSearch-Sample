@@ -21,7 +21,7 @@ namespace Application.Models
             
         }
 
-        public Product(string name, string category, float price, string description, int quantityInStock, string manufacturer, float shippingCost, string customerName, string customerEmail, string orderDate, bool isActive)
+        public Product(string name, string category, string category1, float price, string description, int quantityInStock, string manufacturer, float shippingCost, string customerName, string customerEmail, string orderDate, bool isActive)
         {
             Name = name;
             Category = category;

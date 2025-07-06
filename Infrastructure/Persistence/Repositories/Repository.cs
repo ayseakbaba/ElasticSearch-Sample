@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Models;
 using Domain.Models;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,18 @@ namespace Infrastructure.Persistence.Repositories
                 _dbSet.Remove(entity);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> AddRangeAsync(List<TEntity> entities)
+        {
+            await _context.Set<TEntity>().AddRangeAsync(entities);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> AddRangeAsync(List<Product> entities)
+        {
+            await _context.Set<Product>().AddRangeAsync(entities);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

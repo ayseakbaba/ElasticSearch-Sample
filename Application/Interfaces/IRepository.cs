@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Application.Models;
+using Domain.Models;
 using System.Linq.Expressions;
 
 namespace Application.Interfaces
@@ -10,5 +11,6 @@ namespace Application.Interfaces
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(string id);
+        Task<bool> AddRangeAsync(List<Product> entities);
     }
 }

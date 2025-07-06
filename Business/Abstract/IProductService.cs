@@ -1,4 +1,5 @@
 ﻿using Application.Dtos;
+using Application.Models;
 
 namespace Business.Abstract
 {
@@ -9,5 +10,8 @@ namespace Business.Abstract
         Task<bool> DeleteProductAsync(string id);
         Task<ProductDto> GetProductByIdAsync(string id);
         Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+        Task<bool> AddBulkProductsAsync(List<Product> products);
+        Task<IEnumerable<ProductDto>> SearchProductsAsync(string query);
+
     }
 }

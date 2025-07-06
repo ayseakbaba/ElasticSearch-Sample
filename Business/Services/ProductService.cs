@@ -49,5 +49,15 @@ namespace Business.Services
             await _productRepository.DeleteAsync(id);
             return await _elasticRepository.DeleteAsync(id);
         }
+
+        public async Task<bool> AddBulkProductsAsync(List<Product> products)
+        {
+            return await _productRepository.AddRangeAsync(products);
+        }
+
+        public async Task<IEnumerable<ProductDto>> SearchProductsAsync(string query)
+        {
+            return await _elasticRepository.SearchAsync(query);
+        }
     }
 }

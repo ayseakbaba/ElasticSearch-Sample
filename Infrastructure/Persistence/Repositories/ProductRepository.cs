@@ -3,10 +3,11 @@ using Application.Interfaces;
 using Application.Models;
 using Application.Dtos;
 using Infrastructure.Persistence.Context;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class ProductRepository : IRepository<ProductDto>
+    public class ProductRepository : IRepository<Product>
     {
         private readonly MasterContext _context;
 
@@ -15,7 +16,7 @@ namespace Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public Task<bool> AddAsync(ProductDto entity)
+        public Task AddAsync(Product entity)
         {
             if (!_context.Products.Any(x => x.Id == entity.Id))
             {
@@ -38,7 +39,15 @@ namespace Infrastructure.Persistence.Repositories
             return Task.FromResult(false);
         }
 
-        public Task<bool> DeleteAsync(string id)
+        public async Task<bool> AddRangeAsync(List<Product> entities)
+        {
+            await _context.Set<Product>().AddRangeAsync(entities);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+
+
+        public Task DeleteAsync(string id)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
             if (product != null)
@@ -61,10 +70,10 @@ namespace Infrastructure.Persistence.Repositories
             return Task.FromResult(result);
         }
 
-        public Task<IEnumerable<ProductDto>> GetAllAsync()
+        public Task<IEnumerable<Product>> GetAllAsync()
         {
             var productList = _context.Products
-                .Select(p => new ProductDto
+                .Select(p => new Product
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -84,12 +93,16 @@ namespace Infrastructure.Persistence.Repositories
             return Task.FromResult(productList);
         }
 
+        public Task<IEnumerable<Product>> GetAllAsync(Expression<Func<Product, bool>> predicate = null)
+        {
+            throw new NotImplementedException();
+        }
 
-        public Task<ProductDto> GetByIdAsync(string id)
+        public Task<Product> GetByIdAsync(string id)
         {
             var product = _context.Products
                 .Where(x => x.Id == id)
-                .Select(p => new ProductDto
+                .Select(p => new Product
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -106,7 +119,7 @@ namespace Infrastructure.Persistence.Repositories
             return _context.SaveChangesAsync().ContinueWith(t => t.Result > 0);
         }
 
-        public Task<bool> UpdateAsync(ProductDto entity)
+        public Task UpdateAsync(Product entity)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == entity.Id);
             if (product != null)
