@@ -1,14 +1,14 @@
-﻿namespace Application.Interfaces
+﻿using Domain.Models;
+using System.Linq.Expressions;
+
+namespace Application.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        public Task<bool> AddAsync(T entity);
-        public Task<bool> UpdateAsync(T entity);
-        public Task<bool> DeleteAsync(string id);
-        public Task<T> GetByIdAsync(string id);
-        public Task<IEnumerable<T>> GetAllAsync();
-        public Task<bool> SaveChangesAsync();
-
-
+        Task<TEntity> GetByIdAsync(string id);
+        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
+        Task AddAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity);
+        Task DeleteAsync(string id);
     }
 }

@@ -1,0 +1,29 @@
+{
+  "mappings": {
+    "properties": {
+      "id": { "type": "keyword" },
+      "name": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "category": {
+        "type": "text",
+        "fields": {
+          "keyword": { "type": "keyword" }
+        }
+      },
+      "price": { "type": "double" },
+      "description": { "type": "text" },
+      "quantityInStock": { "type": "integer" },
+      "manufacturer": { "type": "text" },
+      "shippingCost": { "type": "double" },
+      "customerName": { "type": "text" },
+      "customerEmail": { "type": "keyword" },
+      "orderDate": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ss||strict_date_optional_time"
+      },
+      "isActive": { "type": "boolean" }
+    }
+  }
+}

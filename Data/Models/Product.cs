@@ -1,8 +1,9 @@
-﻿namespace Application.Models
+﻿using Domain.Models;
+
+namespace Application.Models
 {
-    public class Product
+    public class Product : BaseEntity
     {
-        public  string Id { get; set; }
         public  string Name { get; set; }
         public  string Category { get; set; }
         public float Price { get; set; }
@@ -20,9 +21,8 @@
             
         }
 
-        public Product(string id, string name, string category, float price, string description, int quantityInStock, string manufacturer, float shippingCost, string customerName, string customerEmail, string orderDate, bool isActive)
+        public Product(string name, string category, float price, string description, int quantityInStock, string manufacturer, float shippingCost, string customerName, string customerEmail, string orderDate, bool isActive)
         {
-            Id = id;
             Name = name;
             Category = category;
             Price = price;

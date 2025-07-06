@@ -1,32 +1,53 @@
-﻿using Business.Abstract;
-using Application.Dtos;
+﻿using Application.Dtos;
+using Application.Interfaces;
+using Application.Models;
+using AutoMapper;
+using Business.Abstract;
 namespace Business.Services
 {
-    internal class ProductService : IProductService
+    public class ProductService : IProductService
     {
-        public Task<bool> AddProductAsync(ProductDto product)
+        private readonly IRepository<Product> _productRepository;
+        private readonly IElasticRepository<ProductDto> _elasticRepository;
+        private readonly IMapper _mapper;
+
+        public ProductService(IRepository<Product> productRepository, IElasticRepository<ProductDto> elasticRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _productRepository = productRepository;
+            _elasticRepository = elasticRepository;
+            _mapper = mapper;
         }
 
-        public Task<bool> DeleteProductAsync(string id)
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
         {
-            throw new NotImplementedException();
+            var products = await _productRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
-        public Task<IEnumerable<ProductDto>> GetAllProductsAsync()
+        public async Task<ProductDto> GetProductByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var product = await _productRepository.GetByIdAsync(id);
+            return _mapper.Map<ProductDto>(product);
         }
 
-        public Task<ProductDto> GetProductByIdAsync(string id)
+        public async Task<bool> AddProductAsync(ProductDto productDto)
         {
-            throw new NotImplementedException();
+            var product = _mapper.Map<Product>(productDto);
+            await _productRepository.AddAsync(product);
+            return await _elasticRepository.IndexAsync(productDto);
         }
 
-        public Task<bool> UpdateProductAsync(ProductDto product)
+        public async Task<bool> UpdateProductAsync(ProductDto productDto)
         {
-            throw new NotImplementedException();
+            var product = _mapper.Map<Product>(productDto);
+            await _productRepository.UpdateAsync(product);
+            return await _elasticRepository.UpdateAsync(productDto); // aynı id ile overwrite eder
+        }
+
+        public async Task<bool> DeleteProductAsync(string id)
+        {
+            await _productRepository.DeleteAsync(id);
+            return await _elasticRepository.DeleteAsync(id);
         }
     }
 }

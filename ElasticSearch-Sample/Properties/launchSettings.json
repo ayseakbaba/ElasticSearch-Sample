@@ -8,7 +8,8 @@
       "applicationUrl": "http://localhost:5295",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRESQL_URI": "User ID=root;Password=root;Host=127.0.0.1;Port=10000;Database=elastic_sample;Pooling=true;Connection Lifetime=0;"
+        "POSTGRESQL_URI": "User ID=root;Password=root;Host=127.0.0.1;Port=10000;Database=elastic_sample;Pooling=true;Connection Lifetime=0;",
+        "Elastic__Uri": "http://elasticsearch:9200"
       }
     },
     "https": {
@@ -18,7 +19,8 @@
       "applicationUrl": "https://localhost:7204;http://localhost:5295",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRESQL_URI": "User ID=root;Password=root;Host=127.0.0.1;Port=10000;Database=elastic_sample;Pooling=true;Connection Lifetime=0;"
+        "POSTGRESQL_URI": "User ID=root;Password=root;Host=127.0.0.1;Port=10000;Database=elastic_sample;Pooling=true;Connection Lifetime=0;",
+        "Elastic__Uri": "http://elasticsearch:9200"
       }
     }
   }
